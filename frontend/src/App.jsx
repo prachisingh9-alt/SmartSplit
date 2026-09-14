@@ -1,3 +1,5 @@
+import './App.css'
+
 import { useState } from 'react'
 
 function App(){
@@ -37,31 +39,39 @@ function App(){
     .then(data => setMessage(JSON.stringify(data.settlements)))
 }
 
- return (
-    <div>
-      <h1>SmartSplit</h1>
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Amount paid"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-      />
-      <button onClick={handleAddPerson}>Add Person</button>
+  return (
+    <div className="app-container">
+      <h1 className="app-title">SmartSplit</h1>
+      <p className="app-subtitle">Split expenses. Not friendships.</p>
 
-      <ul>
-        {people.map((person,index)=>(
-          <li key={index}>{person.name} paid {person.paid}</li>
-        ))}
-      </ul>
+      <div className="card">
+        <div className="form-row">
+          <input
+            className="input-field"
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            className="input-field"
+            type="number"
+            placeholder="Amount paid"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <button className="btn btn-secondary" onClick={handleAddPerson}>Add Person</button>
+        </div>
 
-      <button onClick={handleClick}>Calculate Settlements</button>
-      <p>{message}</p>
+        <ul className="people-list">
+          {people.map((person, index) => (
+            <li className="people-item" key={index}>{person.name} paid ₹{person.paid}</li>
+          ))}
+        </ul>
+
+        <button className="btn btn-primary" onClick={handleClick}>Calculate Settlements</button>
+        <p className="result-text">{message}</p>
+      </div>
     </div>
   )
 }
