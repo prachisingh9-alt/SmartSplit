@@ -45,3 +45,7 @@ def add_person(name: str, paid: float, db=Depends(get_db)):
     db.commit()
     db.refresh(new_person)
     return new_person
+
+@app.get("/people")
+def get_people(db=Depends(get_db)):
+    return db.query(Person).all()
