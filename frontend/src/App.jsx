@@ -2,7 +2,7 @@ import './App.css'
 import { useState, useEffect } from 'react'
 
 function App(){
-  const [message, setMessage] = useState('')
+  const [settlements, setSettlements] = useState([])
   const [people, setPeople] = useState([])
   const [name, setName] = useState('')
   const [amount, setAmount] = useState('')
@@ -45,7 +45,7 @@ function App(){
       body: JSON.stringify({ paid: paid, fair_share: fairShare })
     })
       .then(response => response.json())
-      .then(data => setMessage(JSON.stringify(data.settlements)))
+      .then(data => setSettlements(data.settlements))
   }
 
   return (
@@ -79,7 +79,20 @@ function App(){
         </ul>
 
         <button className="btn btn-primary" onClick={handleClick}>Calculate Settlements</button>
-        <p className="result-text">{message}</p>
+
+        {settlements.length > 0 && (
+          <div className="settlements-container">
+            <h3 className="settlements-title">Settlement Plan</h3>
+            {settlements.map((s, index) => (
+              <div className="settlement-card" key={index}>
+                <span className="debtor">{s[0]}</span>
+                <span className="arrow">pays</span>
+                <span className="creditor">{s[1]}</span>
+                <span className="amount">₹{s[2]}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

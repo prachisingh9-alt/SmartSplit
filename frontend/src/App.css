@@ -92,3 +92,46 @@ body {
   word-break: break-word;
 }
 
+.settlements-container {
+  margin-top: 20px;
+}
+
+.settlements-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.settlement-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f0f0ff, #fdf2f8);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.debtor {
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.arrow {
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.creditor {
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.amount {
+  font-weight: 700;
+  color: #059669;
+  background: #ecfdf5;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
