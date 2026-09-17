@@ -1,17 +1,28 @@
 import './App.css'
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function App(){
-  const [message,setMessage] = useState('')
-  const [people,setPeople] = useState([])
-  const [name,setName] = useState('')
-  const [amount,setAmount] = useState('')
+  const [message, setMessage] = useState('')
+  const [people, setPeople] = useState([])
+  const [name, setName] = useState('')
+  const [amount, setAmount] = useState('')
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/people')
+      .then(response => response.json())
+      .then(data => setPeople(data))
+  }, [])
 
   function handleAddPerson() {
-    setPeople([...people, { name: name, paid: Number(amount) }])
-    setName('')
-    setAmount('')
+    fetch('http://127.0.0.1:8000/people?name=' + name + '&paid=' + amount, {
+      method: 'POST'
+    })
+      .then(response => response.json())
+      .then(data => {
+        setPeople([...people, data])
+        setName('')
+        setAmount('')
+      })
   }
 
   function handleClick(){
@@ -20,7 +31,7 @@ function App(){
       paid[person.name] = person.paid
     })
 
-    const total = people.reduce((sum,person) => sum + person.paid,0)
+    const total = people.reduce((sum, person) => sum + person.paid, 0)
     const share = total / people.length
 
     const fairShare = {}
@@ -28,16 +39,14 @@ function App(){
       fairShare[person.name] = share
     })
 
-    fetch('http://127.0.0.1:8000/settle',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        paid:paid,fair_share:fairShare
-          })
+    fetch('http://127.0.0.1:8000/settle', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ paid: paid, fair_share: fairShare })
     })
-    .then(response => response.json())
-    .then(data => setMessage(JSON.stringify(data.settlements)))
-}
+      .then(response => response.json())
+      .then(data => setMessage(JSON.stringify(data.settlements)))
+  }
 
   return (
     <div className="app-container">
