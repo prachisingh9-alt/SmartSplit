@@ -48,6 +48,17 @@ function App(){
       .then(data => setSettlements(data.settlements))
   }
 
+  function handleClear() {
+  fetch('http://127.0.0.1:8000/people', {
+    method: 'DELETE'
+  })
+    .then(response => response.json())
+    .then(() => {
+      setPeople([])
+      setSettlements([])
+    })
+}
+
   return (
     <div className="app-container">
       <h1 className="app-title">SmartSplit</h1>
@@ -77,6 +88,9 @@ function App(){
             <li className="people-item" key={index}>{person.name} paid ₹{person.paid}</li>
           ))}
         </ul>
+        {people.length > 0 && (
+        <button className="btn btn-clear" onClick={handleClear}>Clear All</button>
+          )}  
 
         <button className="btn btn-primary" onClick={handleClick}>Calculate Settlements</button>
 
