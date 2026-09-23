@@ -21,9 +21,6 @@ When a group of friends share expenses (trips, dinners, rent), the naive approac
 2. Split into **creditors** (positive balance, owed money) and **debtors** (negative balance, owe money)
 3. Greedily match the largest debtor with the largest creditor, transfer the minimum of the two amounts, repeat until all balances are zero
 
-## Project Structure
-
-
 ## API Endpoints
 
 | Method | Endpoint | Description |
@@ -40,7 +37,7 @@ When a group of friends share expenses (trips, dinners, rent), the naive approac
 ```bash
 cd backend
 python -m venv venv
-venv\Scripts\activate        # Windows
+venv\Scripts\activate
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
@@ -53,4 +50,7 @@ npm run dev
 ```
 
 ### Database
-Requires PostgreSQL running locally on port 5432 with a database named `smartsplit`.
+Requires PostgreSQL running locally on port 5432 with a database named `smartsplit`. Create a `.env` file in `backend/` with:
+```
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/smartsplit
+```
