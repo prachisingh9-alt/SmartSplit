@@ -26,7 +26,7 @@ def generate_settlements(creditors,debtors):
         creditor_name, credit_amount = creditor
         debtor_name, debt_amount = debtor
 
-        payment = min(credit_amount , -debt_amount)
+        payment = round(min(credit_amount , -debt_amount), 2)
 
         settlements.append([debtor_name,creditor_name,payment])
 

@@ -26,7 +26,10 @@ function App() {
   }, [activeGroup])
 
   function handleCreateGroup() {
-    if (!groupName.trim()) return
+    if (!groupName.trim()){
+      alert('Please enter a group name')
+      return
+    }
     fetch('http://127.0.0.1:8000/groups?name=' + groupName, { method: 'POST' })
       .then(r => r.json())
       .then(data => {
@@ -37,8 +40,19 @@ function App() {
   }
 
   function handleAddPerson() {
-    if (!name.trim() || !amount || !activeGroup) return
-    fetch('http://127.0.0.1:8000/people?name=' + name + '&paid=' + amount + '&group_id=' + activeGroup.id, { method: 'POST' })
+    if (!name.trim()) {
+      alert('Please enter a name')
+      return 
+    }
+    if (!amount ||Number(amount) <= 0){
+      alert('Please enter a valid amount greater than 0')
+      return
+    }
+    if(!activeGroup) {
+      alert('Please select a group first')
+      return
+    }
+    fetch('http://127.0.0.1:8000/people?name=' + name.trim() + '&paid=' + amount + '&group_id=' + activeGroup.id, { method: 'POST' })
       .then(r => r.json())
       .then(data => {
         setPeople([...people, data])
@@ -48,7 +62,10 @@ function App() {
   }
 
   function handleClick() {
-    if (people.length < 2) return
+    if (people.length < 2) {
+      alert('Add at least 2 people to calculate settlements')
+      return
+    }
     const paid = {}
     people.forEach(p => { paid[p.name] = p.paid })
     const total = people.reduce((sum, p) => sum + p.paid, 0)
