@@ -1,3 +1,5 @@
+from http.client import HTTPException
+
 from settlement import calculate_net_balance, simplify_debts, generate_settlements
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -41,7 +43,11 @@ from models import Person
 
 @app.post("/people")
 def add_person(name: str, paid: float, group_id: int, db=Depends(get_db)):
-    new_person = Person(name=name, paid=paid)
+    if not name.strip():
+        raise HTTPException(status_code=400, detail="Name cannot be empty")
+    if paid <= 0:
+        raise HTTPException(status_code=400,detail="Amount must be greater than 0")
+    new_person = Person(name=name.strip(), paid=paid, group_id=group_id)
     db.add(new_person)
     db.commit()
     db.refresh(new_person)
@@ -59,7 +65,9 @@ def clear_people(group_id: int, db=Depends(get_db)):
 
 @app.post("/groups")
 def create_group(name: str, db=Depends(get_db)):
-    new_group = Group(name=name)
+    if not name.strip():
+        raise HTTPException(status_code=400, detail="Group name cannot be empty")
+    new_group = Group(name=name.strip())
     db.add(new_group)
     db.commit()
     db.refresh(new_group)
